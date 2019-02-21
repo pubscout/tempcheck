@@ -3,4 +3,5 @@ language:
 install:
 - pip install pint
 script:
-- bundle exec python tempcheck.py -45.14 Celsius Kelvin 227.51
+- python tempcheck.py -45.14 Celsius Kelvin 227.51
+- python tempcheck.py -45.14 Celsius Kelvin 228.01

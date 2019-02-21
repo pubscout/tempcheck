@@ -69,6 +69,7 @@ def main(argv):
         print("correct")
     else:
         print("incorrect")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
