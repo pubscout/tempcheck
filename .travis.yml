@@ -2,4 +2,4 @@ language: python
 install:
 - pip install pint
 script:
-- pytest
+- pytest temptest.py
