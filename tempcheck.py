@@ -72,6 +72,15 @@ class Temperature():
         print("Converting %s to %s" % (self.base, self.ureg.degR))
         return self.base.to(self.ureg.degR)
 
+    def compare(self, unit, value):
+        """ Compares self.base to given temperature """
+        converted = self.base.to(unit)
+        print("Comparing base %s to %s" % (converted, value))
+        if self.base == value:
+            return True
+        else:
+            return False
+
 
 def main(argv):
     args = get_parser().parse_args(argv[1:])
@@ -79,13 +88,17 @@ def main(argv):
     in_unit = args.InUnit
     conv_unit = args.ConvUnit
     resp_tmp = args.Response
+    converted = "None"
 
     T_in = Temperature(in_tmp, in_unit)
     T_resp = Temperature(resp_tmp, conv_unit)
-    print(T.fahrenheit)
-    print(T.celsius)
-    print(T.kelvin)
-    print(T.rankin)
+    print("Base: %s\nResponse: %s" % (T_in.base, T_resp.base))
+    if T_in.compare(T_resp.unit, T_resp.base):
+        print("correct")
+    else:
+        print("incorrect")
+        sys.exit(1)
+
 
     #print("%s %s %s %s" % (in_tmp, in_unit, conv_unit, resp_tmp))
 """
