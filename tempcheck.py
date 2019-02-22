@@ -15,51 +15,80 @@ def get_parser():
     return parser
 
 
+class Temperature():
+    """
+    Class defining temperature conversions
+    """
+    def __init__(self, value, unit):
+        if unit in ['F', 'f', 'Fahrenheit', 'fahrenheit']:
+            self.unit = 'degF'
+        elif unit in ['C', 'c', 'Celsius', 'celsius']:
+            self.unit = 'degC'
+        elif unit in ['K', 'k', 'Kelvin', 'kelvin']:
+            self.unit = 'kelvin'
+        elif unit in ['R', 'r', 'Rankine', 'rankine']:
+            self.unit = 'degR'
+        else:
+            # Invalid/unsupported temperature unit
+            print("invalid")
+            sys.exit(1)
+
+        self.ureg = pint.UnitRegistry()
+        self._Q = self.ureg.Quantity
+        # Ensure given value is in a 'pint forma/precision'
+        self.base = self._Q(value, self.unit)
+
+
+    @property
+    def fahrenheit(self):
+        """ Returns Fahrenheit temperature value """
+        if self.unit == self.ureg.degF:
+            return self.base
+        #ureg_unit = vars(self)[self.unit]
+        print("Converting %s to %s" % (self.base, self.ureg.degF))
+        return self.base.to(self.ureg.degF)
+
+    @property
+    def celsius(self):
+        """ Returns Celcius temperature value """
+        if self.unit == self.ureg.degC:
+            return self.base
+        print("Converting %s to %s" % (self.base, self.ureg.degC))
+        return self.base.to(self.ureg.degC)
+
+    @property
+    def kelvin(self):
+        """ Returns Kelvin temperature value """
+        if self.unit == self.ureg.kelvin:
+            return self.base
+        print("Converting %s to %s" % (self.base, self.ureg.kelvin))
+        return self.base.to(self.ureg.kelvin)
+
+    @property
+    def rankin(self):
+        """ Returns Rankin temperature value """
+        if self.unit == self.ureg.degR:
+            return self.base
+        print("Converting %s to %s" % (self.base, self.ureg.degR))
+        return self.base.to(self.ureg.degR)
+
+
 def main(argv):
     args = get_parser().parse_args(argv[1:])
     in_tmp = args.Temp
     in_unit = args.InUnit
     conv_unit = args.ConvUnit
     resp_tmp = args.Response
-    ureg = pint.UnitRegistry()
-    _Q = ureg.Quantity
+
+    T_in = Temperature(in_tmp, in_unit)
+    T_resp = Temperature(resp_tmp, conv_unit)
+    print(T.fahrenheit)
+    print(T.celsius)
+    print(T.kelvin)
+    print(T.rankin)
 
     #print("%s %s %s %s" % (in_tmp, in_unit, conv_unit, resp_tmp))
-
-    if in_unit in ['F', 'f', 'Fahrenheit', 'fahrenheit']:
-        home = _Q(in_tmp, ureg.degF)
-    elif in_unit in ['C', 'c', 'Celsius', 'celsius']:
-        home = _Q(in_tmp, ureg.degC)
-    elif in_unit in ['K', 'k', 'Kelvin', 'kelvin']:
-        home = _Q(in_tmp, ureg.kelvin)
-    elif in_unit in ['R', 'r', 'Rankine', 'rankine']:
-        home = _Q(in_tmp, ureg.degR)
-    else:
-        # Invalid/unsupported temperature unit
-        print("Invalid")
-        sys.exit(1)
-
-    if conv_unit in ['F', 'f', 'Fahrenheit', 'fahrenheit']:
-        #Convert to Fahrenheit
-        conv_tmp = home.to('degF')
-        resp_ureg = _Q(resp_tmp, ureg.degF)
-    elif conv_unit in ['C', 'c', 'Celsius', 'celsius']:
-        #Convert to Celsius
-        conv_tmp = home.to('degC')
-        resp_ureg = _Q(resp_tmp, ureg.degC)
-    elif conv_unit in ['K', 'k', 'Kelvin', 'kelvin']:
-        #Convert to Kelvin
-        conv_tmp = home.to('kelvin')
-        resp_ureg = _Q(resp_tmp, ureg.kelvin)
-    elif conv_unit in ['R', 'r', 'Rankine', 'rankine']:
-        #Convert to Rankine
-        conv_tmp = home.to('degR')
-        resp_ureg = _Q(resp_tmp, ureg.degR)
-    else:
-        # Invalid/unsupported temperature unit
-        print("Invalid")
-        sys.exit(1)
-
+"""
     print("home:  %s" % home)
     print("resp_ureg: %s" % resp_ureg)
     print("conv_tmp: %s" % conv_tmp)
@@ -69,6 +98,7 @@ def main(argv):
     else:
         print("incorrect")
         sys.exit(1)
+"""
 
 
 if __name__ == "__main__":
