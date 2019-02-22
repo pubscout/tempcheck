@@ -1,7 +1,5 @@
-language:
-- python
+language: python
 install:
 - pip install pint
 script:
-- python tempcheck.py -45.14 Celsius Kelvin 227.51
-- python tempcheck.py -45.14 Celsius Kelvin 228.01
+- pytest

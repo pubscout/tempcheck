@@ -36,7 +36,7 @@ class Temperature():
         self.ureg = pint.UnitRegistry()
         self._Q = self.ureg.Quantity
         # Ensure given value is in a 'pint forma/precision'
-        self.base = self._Q(value, self.unit)
+        self.base = self._Q(round(value), self.unit)
 
 
     @property
@@ -65,7 +65,7 @@ class Temperature():
         return self.base.to(self.ureg.kelvin)
 
     @property
-    def rankin(self):
+    def rankine(self):
         """ Returns Rankin temperature value """
         if self.unit == self.ureg.degR:
             return self.base
@@ -75,8 +75,9 @@ class Temperature():
     def compare(self, unit, value):
         """ Compares self.base to given temperature """
         converted = self.base.to(unit)
+        converted = self._Q(round(converted.magnitude), converted.units)
         print("Comparing base %s to %s" % (converted, value))
-        if self.base == value:
+        if converted == value:
             return True
         else:
             return False
@@ -84,34 +85,18 @@ class Temperature():
 
 def main(argv):
     args = get_parser().parse_args(argv[1:])
-    in_tmp = args.Temp
-    in_unit = args.InUnit
-    conv_unit = args.ConvUnit
-    resp_tmp = args.Response
-    converted = "None"
 
-    T_in = Temperature(in_tmp, in_unit)
-    T_resp = Temperature(resp_tmp, conv_unit)
+    # Compare all values rounded to the ones place
+    T_in = Temperature(args.Temp, args.InUnit)
+    T_resp = Temperature(args.Response, args.ConvUnit)
     print("Base: %s\nResponse: %s" % (T_in.base, T_resp.base))
+
     if T_in.compare(T_resp.unit, T_resp.base):
         print("correct")
     else:
         print("incorrect")
         sys.exit(1)
 
-
-    #print("%s %s %s %s" % (in_tmp, in_unit, conv_unit, resp_tmp))
-"""
-    print("home:  %s" % home)
-    print("resp_ureg: %s" % resp_ureg)
-    print("conv_tmp: %s" % conv_tmp)
-
-    if resp_ureg == conv_tmp:
-        print("correct")
-    else:
-        print("incorrect")
-        sys.exit(1)
-"""
 
 
 if __name__ == "__main__":
