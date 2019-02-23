@@ -45,7 +45,6 @@ class Temperature():
         if self.unit == self.ureg.degF:
             return self.base
         #ureg_unit = vars(self)[self.unit]
-        print("Converting %s to %s" % (self.base, self.ureg.degF))
         return self.base.to(self.ureg.degF)
 
     @property
@@ -53,7 +52,6 @@ class Temperature():
         """ Returns Celcius temperature value """
         if self.unit == self.ureg.degC:
             return self.base
-        print("Converting %s to %s" % (self.base, self.ureg.degC))
         return self.base.to(self.ureg.degC)
 
     @property
@@ -61,7 +59,6 @@ class Temperature():
         """ Returns Kelvin temperature value """
         if self.unit == self.ureg.kelvin:
             return self.base
-        print("Converting %s to %s" % (self.base, self.ureg.kelvin))
         return self.base.to(self.ureg.kelvin)
 
     @property
@@ -69,14 +66,12 @@ class Temperature():
         """ Returns Rankin temperature value """
         if self.unit == self.ureg.degR:
             return self.base
-        print("Converting %s to %s" % (self.base, self.ureg.degR))
         return self.base.to(self.ureg.degR)
 
     def compare(self, unit, value):
         """ Compares self.base to given temperature """
         converted = self.base.to(unit)
         converted = self._Q(round(converted.magnitude), converted.units)
-        print("Comparing base %s to %s" % (converted, value))
         if converted == value:
             return True
         else:
@@ -89,7 +84,7 @@ def main(argv):
     # Compare all values rounded to the ones place
     T_in = Temperature(args.Temp, args.InUnit)
     T_resp = Temperature(args.Response, args.ConvUnit)
-    print("Base: %s\nResponse: %s" % (T_in.base, T_resp.base))
+    #print("Base: %s\nResponse: %s" % (T_in.base, T_resp.base))
 
     if T_in.compare(T_resp.unit, T_resp.base):
         print("correct")
