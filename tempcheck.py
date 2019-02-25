@@ -84,7 +84,6 @@ def main(argv):
     # Compare all values rounded to the ones place
     T_in = Temperature(args.Temp, args.InUnit)
     T_resp = Temperature(args.Response, args.ConvUnit)
-    #print("Base: %s\nResponse: %s" % (T_in.base, T_resp.base))
 
     if T_in.compare(T_resp.unit, T_resp.base):
         print("correct")

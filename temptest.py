@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import tempcheck as TemperatureClass
-#import Temperature as TemperatureClass
 import unittest
 
 class TemperatureTest(unittest.TestCase):
